@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-19 17:37:03
- * @LastEditTime: 2020-06-19 17:49:50
+ * @LastEditTime: 2020-06-19 17:54:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MyDiskServer/utils/fileSystem.go
@@ -11,7 +11,7 @@ package utils
 
 import "io/ioutil"
 
-// GetFileList 获取文件结构
+// GetFileList 获取文件夹结构
 func GetFileList(path string) interface{} {
 	var fileInfoList, err = ioutil.ReadDir(path)
 	if err != nil {
