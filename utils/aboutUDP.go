@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-19 18:27:04
- * @LastEditTime: 2020-06-19 18:43:55
+ * @LastEditTime: 2020-06-20 09:39:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MyDiskServer/utils/aboutUDP.go
@@ -10,11 +10,11 @@
 package utils
 
 import (
-	"MyDiskServer/conf"
 	"fmt"
 	"log"
 	"net"
 	"strconv"
+	"time"
 
 	"gopkg.in/ini.v1"
 )
@@ -23,7 +23,7 @@ import (
 func GetPlatformAddr() (host string, port int) {
 	iniObj, err := ini.Load("../conf/admin.ini")
 	PanicErr(err)
-	var sec = iniObj.Section("postgres")
+	var sec = iniObj.Section("platform")
 	host = sec.Key("HOST").String()
 	var portStr = sec.Key("PORT").String()
 	port, err = strconv.Atoi(portStr)
@@ -31,7 +31,7 @@ func GetPlatformAddr() (host string, port int) {
 	return
 }
 
-// HeartBeat 保持平台心跳
+// HeartBeat 平台心跳
 func HeartBeat() {
 	var host, port = GetPlatformAddr()
 	srcAddr := &net.UDPAddr{IP: net.IPv4zero, Port: 9202} // 注意端口必须固定
@@ -40,8 +40,17 @@ func HeartBeat() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	if _, err = conn.Write([]byte("s" + conf.TheUser.Name)); err != nil {
+	// if _, err = conn.Write([]byte("s" + conf.TheUser.Name)); err != nil {
+	if _, err = conn.Write([]byte("s" + "xiaoboya")); err != nil {
 		log.Panic(err)
 	}
 	conn.Close()
+}
+
+// KeepHeart 保持平台心跳
+func KeepHeart() {
+	for {
+		HeartBeat()
+		time.Sleep(10 * time.Second)
+	}
 }
