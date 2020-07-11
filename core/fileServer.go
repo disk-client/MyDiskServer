@@ -1,7 +1,7 @@
 /*
  * @Author: 肖博雅
  * @Date: 2020-07-11 13:06:34
- * @LastEditTime: 2020-07-11 21:23:42
+ * @LastEditTime: 2020-07-11 21:35:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MyDiskServer/core/fileServer.GO
@@ -94,14 +94,16 @@ func rename(c *gin.Context) {
 	if err != nil {
 		fmt.Println(err)
 		c.JSON(200, gin.H{
-			"msg": "参数异常",
+			"msg":  "参数异常",
+			"succ": false,
 		})
 		return
 	}
 	var path = info.GetRequestPath()
 	if ok := info.CheckPath(path); !ok {
 		c.JSON(200, gin.H{
-			"msg": "当前路径错误，无新建文件夹权限",
+			"msg":  "当前路径错误，无新建文件夹权限",
+			"succ": false,
 		})
 		return
 	}
@@ -111,12 +113,14 @@ func rename(c *gin.Context) {
 	err = os.Rename(path, newName)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"msg": "重命名失败",
+			"msg":  "重命名失败",
+			"succ": false,
 		})
 		return
 	}
 	c.JSON(200, gin.H{
-		"msg": "重命名成功",
+		"msg":  "重命名成功",
+		"succ": true,
 	})
 	return
 }
