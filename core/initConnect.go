@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-03 22:07:35
- * @LastEditTime: 2020-07-11 11:59:26
+ * @LastEditTime: 2020-07-13 15:31:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MyDiskServer/core/initConnect.go
@@ -118,6 +118,7 @@ func connectRemote() *net.TCPConn {
 	return conn
 }
 
-func main() {
+// InitProxy 初始化代理
+func InitProxy() {
 	connectControl()
 }
