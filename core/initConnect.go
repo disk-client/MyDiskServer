@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-03 22:07:35
- * @LastEditTime: 2020-07-13 15:31:49
+ * @LastEditTime: 2020-07-25 17:20:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MyDiskServer/core/initConnect.go
@@ -11,14 +11,16 @@ package core
 
 import (
 	"MyDiskServer/conf"
+	"MyDiskServer/utils"
 	"bufio"
 	"fmt"
 	"io"
 	"net"
 	"os"
+	"time"
 )
 
-func connectControl() {
+func connectControl(username string) {
 	var tcpAddr *net.TCPAddr
 	//这里在一台机测试，所以没有连接到公网，可以修改到公网ip
 	tcpAddr, _ = net.ResolveTCPAddr("tcp", conf.HOST+":"+conf.HEARTPORT)
@@ -27,7 +29,13 @@ func connectControl() {
 		fmt.Println("Client connect error ! " + err.Error())
 		return
 	}
-	conn.Write([]byte("xiaoboya"))
+	var content = "SERVER" + time.Now().Format("2006-01-02 15:04:05") + "||" + username
+	encrypted, err := utils.AesEncrypt([]byte(content), conf.AesKey)
+	if err != nil {
+		fmt.Println("encrypt error ! " + err.Error())
+		return
+	}
+	conn.Write([]byte(encrypted))
 	fmt.Println(conn.LocalAddr().String() + " : Client connected!8089")
 	reader := bufio.NewReader(conn)
 	for {
@@ -120,5 +128,5 @@ func connectRemote() *net.TCPConn {
 
 // InitProxy 初始化代理
 func InitProxy() {
-	connectControl()
+	connectControl("xiaoboya")
 }
