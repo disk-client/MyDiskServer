@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-07-07 17:43:50
- * @LastEditTime: 2020-07-25 17:19:30
+ * @LastEditTime: 2020-07-29 22:09:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /MyDiskServer/conf/conf.go
@@ -19,7 +19,10 @@ const HEARTPORT = "8089"
 const TUNNELPORT = "8088"
 
 // Path 制定开始文件
-var Path = ""
+var Path = "/"
 
 // AesKey 对称加密密钥
 var AesKey = []byte("0f90023fc9ae101e")
+
+// CryptCertKey 加解密证书的密钥
+var CryptCertKey = []byte("0f90023fc9ae101e")
